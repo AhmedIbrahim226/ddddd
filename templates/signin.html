@@ -63,9 +63,42 @@
 {% endblock style %}
 
 {% block content %}
+{% if form.non_field_errors %}
+<script>
+    window.onload = function(){
+        $('#modal_btn').click()
+    }
+</script>
+{% endif %}
+<!-- Button trigger modal -->
+<button hidden id="modal_btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
+  
+  <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Login failure</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Invalid!</h4>
+                <hr>
+                {% for er in form.non_field_errors %}
+                    <p class="lead">{{er}}.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+</div>
+  
 <div class="row justify-content-center" style="margin-top: 120px;">
 
-    {{form.non_field_errors}}
     <main class="form-signin text-center">
         <form method="post">
             {% csrf_token %}

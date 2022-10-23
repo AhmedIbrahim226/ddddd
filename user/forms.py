@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import authenticate, login , logout
+from django.contrib.auth import authenticate, login
 from django.core.exceptions import ValidationError
 
 
