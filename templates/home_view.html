@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  HOME 
+{% endblock title %}
+
+
+{% block content %}
+
+
+<div class="container mt-5">
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div class="row justify-content-center">
+
+            <div class="col-6">
+                <div class="border border-end-0 border-top-0 border-secondary" style="padding: 50px;">
+
+                    <figure class="text-center">
+                        <blockquote class="blockquote">
+                            <p>Our website have multi products.</p>
+                            </blockquote>
+                        <figcaption class="blockquote-footer">
+                            Choose one of our product to start !
+                        </figcaption>
+                    </figure>
+
+                    <select class="form-select" id="app-id" onchange="appSelector(this)" required>
+                        <option value="">----------</option>
+                        {% for d in tenant_domain %}
+                            <option value="{{d.id}}">{{d.domain_name}} App</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6" id="tenant-div-id" style="display: none;">
+                <div class="border border-start-0 border-top-0 border-dark" style="padding: 50px 50px 50px 50px;">
+
+                    <figure class="text-center">
+                        <blockquote class="blockquote">
+                            <p>Our website depended on the rent.</p>
+                            </blockquote>
+                        
+                        <figcaption class="blockquote-footer">
+                            Choose the tenant belong to product you registred with.
+                        </figcaption>
+                    </figure>
+
+                    <div id="waiting" class="text-center">
+                        <div id="spinner" class="spinner-border" style="width: 2.4rem; height: 2.4rem;" role="status">
+                            Loading...
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 mt-5 offset-6">
+                <button type="submit" class="mt-5 col-6 btn btn-outline-secondary btn-lg">Start</button>
+            </div>
+            
+            
+        </div>
+    </form>
+
+
+</div>
+{% endblock content %}
+
+{% block script %}
+  <script src="{% static 'js/a.js' %}"></script>
+{% endblock script %}
