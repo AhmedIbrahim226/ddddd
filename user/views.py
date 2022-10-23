@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from .models import TenantDomain, Tenant
-from django.contrib.auth import authenticate, login , logout
+from django.contrib.auth import logout
 from utility.http_response import url_properties
-
+from .forms import (
+    LoginForm,
+)
 
 class MemberInfoView(TemplateView):
     template_name = 'member_info.html'
@@ -33,15 +35,14 @@ class HomeView(TemplateView):
         
         return HttpResponseRedirect("{}://{}.{}.{}:{}{}".format(protocol, subdomain, domain, hostname, port, login_url))
 
-def login_view(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        if email and password:
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-    return render(request, 'signin.html', {})
+class LoginView(FormView):
+    form_class = LoginForm
+    template_name = 'signin.html'
+    success_url = reverse_lazy('member_info_view')
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
 
 
